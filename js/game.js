@@ -20,7 +20,7 @@ const exportText = (t, name, btn, label) => {   // 클립보드 복사 → 실�
 };
 const songs = GROUPS.flatMap(g => g.songs);
 const au = $("#au"), cv = $("#cv"), ctx = cv.getContext("2d");
-let cur = songs.find(s => s.id === load("song", "")) || songs[0];
+let cur = songs.find(s => s.id === "rockurbody") || songs[0];   // 앱을 켜면 항상 Rock Ur Body 가 선택된 상태로 시작
 let diff = load("diff", "normal");
 const cfg = Object.assign({ speed: 6, offset: 0 }, load("settings", {}));
 const fmt = n => Number(n).toLocaleString();
@@ -78,7 +78,10 @@ function schedulePreview() { stopPreview(); pvT = setTimeout(() => {
   if (running || !on("select")) return; const pos = (durOf(cur) / 1000 || 100) * .3;
   au.onerror = null; au.volume = .8; au.onloadedmetadata = () => { au.currentTime = pos; au.play().catch(() => {}); }; au.src = cur.file; au.load(); }, 350); }
 function goSelect() { mode = "game"; enterFull(); show("select"); $("#settings").classList.remove("on"); theme(); renderTrack(); renderInfo(); renderDiffs(); schedulePreview(); }
-$("#grp").textContent = GROUPS[0].name;
+function goIntro() { stopPreview(); show("intro"); }
+$("#introT").textContent = "PLAY " + GROUPS[0].name; $("#grp").textContent = GROUPS[0].name;
+$("#intro").onclick = goSelect;
+$("#close").onclick = goIntro;
 $("#prev").onclick = () => pick(idx - 1); $("#next").onclick = () => pick(idx + 1);
 $("#diffs").onclick = e => { const b = e.target.closest(".dc"); if (b && !b.disabled) { diff = b.dataset.d; save("diff", diff); renderDiffs(); renderInfo(); } };
 $("#start").onclick = () => { mode = "game"; start(); };
@@ -353,10 +356,11 @@ const kick = () => { if (running && !paused && !leading && !audioOn && au.paused
 addEventListener("keydown", e => {
   if (running) { if (e.code in KEYS) { e.preventDefault(); kick(); if (!e.repeat) press(KEYS[e.code], "k" + e.code); } else if (e.code === "Escape") setPause(!paused); return; }
   const k = e.code;
-  if (on("select")) {
+  if (on("intro")) { if (k === "Enter" || k === "Space") { e.preventDefault(); goSelect(); } }
+  else if (on("select")) {
     if (k === "ArrowLeft") pick(idx - 1); else if (k === "ArrowRight") pick(idx + 1);
     else if (k === "ArrowUp" || k === "ArrowDown") { const i = DIFFS.indexOf(diff) + (k === "ArrowUp" ? -1 : 1); if (DIFFS[i] && (CHARTS[cur.id] || {})[DIFFS[i]]) { diff = DIFFS[i]; save("diff", diff); renderDiffs(); renderInfo(); } e.preventDefault(); }
-    else if (k === "Enter") { mode = "game"; start(); }
+    else if (k === "Enter") { mode = "game"; start(); } else if (k === "Escape") goIntro();
   } else if (on("result") && k === "Enter") start();
 });
 function laneAt(e) {
@@ -431,5 +435,5 @@ function finishRec() {
   show("result");
 }
 
-goSelect();   // 첫 화면 없이 바로 곡 선택 화면으로 시작
+goSelect();   // 첫 화면(인트로)을 건너뛰고 곡 선택 화면으로 바로 시작
 })();
