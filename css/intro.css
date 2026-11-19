@@ -1,0 +1,64 @@
+/* ===== 첫 화면 · 버전 A "RISE" — 홀로그램 크롬 로고 + 스피드라인 + 별궤적 배경 + 사이언 HUD =====
+   style.css 뒤에 불러오세요(index.html 에 이미 들어 있음). 이 파일만 지우면 예전 첫 화면 스타일로 돌아갑니다. */
+#intro{--c1:#5ad7ff;--c2:#a855ff;--c3:#ff5ce1;background:#05030d;isolation:isolate;cursor:pointer}
+#intro.on{display:grid;place-items:center}
+#intro>*{pointer-events:none}
+
+/* 배경: 별궤적 사진이 천천히 회전 */
+.ia-bg{position:absolute;left:50%;top:50%;width:150vmax;height:150vmax;margin:-75vmax 0 0 -75vmax;z-index:-4;
+  background:url(../img/intro-trail.webp) center/cover;filter:saturate(1.3) brightness(.66);animation:ia-spin 160s linear infinite}
+.ia-tint{position:absolute;inset:0;z-index:-3;
+  background:radial-gradient(70% 80% at 50% 48%,rgba(5,3,13,.05),rgba(5,3,13,.82) 100%),linear-gradient(180deg,rgba(70,20,160,.5),rgba(5,3,13,.15) 42%,rgba(5,3,13,.8))}
+@keyframes ia-spin{to{transform:rotate(360deg)}}
+
+/* 스피드라인 */
+.ia-speed{position:absolute;inset:0;z-index:-2;mix-blend-mode:screen;background-repeat:repeat-x;animation:ia-run 2.8s linear infinite}
+.ia-speed.s1{background-image:linear-gradient(90deg,transparent 10%,rgba(120,220,255,.95) 38%,transparent 52%),linear-gradient(90deg,transparent 45%,rgba(190,150,255,.95) 70%,transparent 84%),linear-gradient(90deg,transparent 0,rgba(255,255,255,.85) 24%,transparent 36%),linear-gradient(90deg,transparent 58%,rgba(255,110,235,.9) 80%,transparent 96%);
+  background-size:2400px 2px,2400px 1px,2400px 3px,2400px 1px;background-position-y:11%,29%,46%,71%}
+.ia-speed.s2{animation-duration:4.4s;background-image:linear-gradient(90deg,transparent 20%,rgba(255,255,255,.8) 44%,transparent 58%),linear-gradient(90deg,transparent 52%,rgba(120,220,255,.9) 76%,transparent 90%),linear-gradient(90deg,transparent 4%,rgba(190,150,255,.9) 26%,transparent 40%),linear-gradient(90deg,transparent 66%,rgba(255,255,255,.7) 86%,transparent 98%);
+  background-size:2400px 1px,2400px 2px,2400px 1px,2400px 2px;background-position-y:19%,37%,58%,84%;opacity:.8}
+@keyframes ia-run{to{background-position-x:-2400px}}
+
+/* HUD 링 (사이언) */
+.ia-ring{position:absolute;left:50%;top:50%;width:min(112vh,78vw);aspect-ratio:1;transform:translate(-50%,-50%);z-index:-1;opacity:.55;fill:none;stroke:var(--c1);stroke-width:1.6;filter:drop-shadow(0 0 6px rgba(90,215,255,.7))}
+.ia-ring g{transform-box:fill-box;transform-origin:center}
+.ia-ring .r1{animation:ia-spin 60s linear infinite}.ia-ring .r2{animation:ia-spin 40s linear infinite reverse;stroke:var(--c2)}.ia-ring .r3{animation:ia-spin 90s linear infinite;stroke-width:3;opacity:.7}
+
+/* HUD 모서리 / 상단 / 하단 */
+.ia-c{position:absolute;width:30px;height:30px;border:0 solid var(--c1);filter:drop-shadow(0 0 6px var(--c1));opacity:.9}
+.ia-c.tl{left:calc(14px + env(safe-area-inset-left));top:calc(14px + env(safe-area-inset-top));border-left-width:2px;border-top-width:2px}
+.ia-c.tr{right:calc(14px + env(safe-area-inset-right));top:calc(14px + env(safe-area-inset-top));border-right-width:2px;border-top-width:2px}
+.ia-c.bl{left:calc(14px + env(safe-area-inset-left));bottom:calc(14px + env(safe-area-inset-bottom));border-left-width:2px;border-bottom-width:2px}
+.ia-c.br{right:calc(14px + env(safe-area-inset-right));bottom:calc(14px + env(safe-area-inset-bottom));border-right-width:2px;border-bottom-width:2px}
+.ia-top{position:absolute;left:calc(58px + env(safe-area-inset-left));right:calc(58px + env(safe-area-inset-right));top:calc(16px + env(safe-area-inset-top));display:flex;justify-content:space-between;font:700 11px Sora,sans-serif;letter-spacing:.34em;color:#9fe6ff;text-shadow:0 0 10px rgba(90,215,255,.8)}
+.ia-top .live::before{content:"";display:inline-block;width:7px;height:7px;margin-right:9px;border-radius:50%;background:var(--c1);box-shadow:0 0 10px var(--c1);animation:ia-blink 1.4s infinite}
+.ia-bars{position:absolute;left:calc(58px + env(safe-area-inset-left));bottom:calc(20px + env(safe-area-inset-bottom));width:min(180px,28vw);display:grid;gap:5px}
+.ia-bars b{display:block;height:3px;background:rgba(90,215,255,.22);position:relative;overflow:hidden}
+.ia-bars b::after{content:"";position:absolute;inset:0;background:var(--c1);box-shadow:0 0 8px var(--c1);transform-origin:left;animation:ia-fill 2.6s ease-in-out infinite alternate}
+.ia-bars b:nth-child(2)::after{animation-duration:3.4s;animation-delay:-.8s}.ia-bars b:nth-child(3)::after{animation-duration:2.1s;animation-delay:-1.4s}
+@keyframes ia-fill{from{transform:scaleX(.15)}to{transform:scaleX(1)}}
+@keyframes ia-blink{50%{opacity:.2}}
+
+/* 로고: 홀로그램 크롬 + 비스듬한 레이싱 느낌 */
+#intro .introbox{position:relative;z-index:1;padding:0 4vw;display:flex;flex-direction:column;align-items:center}
+#intro h1{display:inline-block;margin:0;font:800 clamp(40px,min(12.5vw,27vh),150px)/1 Sora,"Noto Sans KR",sans-serif;letter-spacing:.03em;text-shadow:none;
+  transform:skewX(-11deg);padding:.04em .12em .06em;
+  background:linear-gradient(100deg,#fff 0%,#d4e6ff 14%,#a58bff 30%,#ff9cf1 44%,#8ceaff 58%,#fff 72%,#d4e6ff 86%,#fff 100%);background-size:240% 100%;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;
+  filter:drop-shadow(0 0 16px rgba(150,95,255,.75)) drop-shadow(0 5px 0 rgba(26,8,70,.7));
+  animation:ia-in 1.1s cubic-bezier(.2,.8,.2,1) both,ia-holo 6s linear infinite}
+@keyframes ia-holo{to{background-position:-240% 0}}
+@keyframes ia-in{0%{opacity:0;transform:skewX(-11deg) translateX(-8vw) scale(1.06);letter-spacing:.16em;filter:blur(10px)}100%{opacity:1}}
+/* 로고를 가로지르는 빛줄기 */
+#intro .introbox::before{content:"";position:absolute;left:-12%;right:-12%;top:52%;height:3px;border-radius:3px;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.95) 28%,#c6a8ff 62%,transparent);box-shadow:0 0 18px 2px rgba(168,85,255,.9);
+  transform:scaleX(0);transform-origin:left;animation:ia-streak 1.3s .35s cubic-bezier(.2,.8,.2,1) both}
+@keyframes ia-streak{0%{transform:scaleX(0);opacity:1}60%{transform:scaleX(1);opacity:1}100%{transform:scaleX(1);opacity:.35}}
+
+/* TAP TO START */
+#intro p{position:relative;display:inline-block;margin:clamp(14px,3.4vh,30px) 0 0;padding:6px 26px;font:700 clamp(12px,1.9vw,16px) Sora,sans-serif;letter-spacing:.5em;text-indent:.5em;color:#e9fbff;text-shadow:0 0 12px rgba(90,215,255,.9);animation:ia-blink 1.6s 1.4s infinite both}
+#intro p::before,#intro p::after{content:"";position:absolute;top:0;bottom:0;width:11px;border:2px solid var(--c1);filter:drop-shadow(0 0 5px var(--c1))}
+#intro p::before{left:0;border-right:0}#intro p::after{right:0;border-left:0}
+
+@media (max-height:520px){.ia-top{font-size:9px;top:calc(12px + env(safe-area-inset-top))}.ia-c{width:22px;height:22px}.ia-bars{bottom:calc(14px + env(safe-area-inset-bottom))}}
+@media (prefers-reduced-motion:reduce){.ia-bg,.ia-speed,.ia-ring g,#intro h1,#intro p,.ia-bars b::after,.ia-top .live::before{animation:none!important}#intro .introbox::before{animation:none;transform:none;opacity:.4}}
