@@ -1,102 +1,43 @@
-/* ===== 첫 화면 · REAL V — 네이비 + 샴페인 골드 글래스 카드 =====
-   css/intro.css 를 이 파일로 덮어쓰세요. (index.html 의 #intro 섹션도 같이 교체) */
-#intro{--n0:#030714;--n1:#081433;--n2:#12306b;--g1:#fff3d1;--g2:#e8cf96;--g3:#c9a35e;--g4:#8c6b2e;--gr:232,207,150;
-  background:var(--n0);isolation:isolate;cursor:pointer;overflow:hidden;outline:0}
-#intro.on{display:grid;place-items:center}
+/* ===== 첫 화면 · 2번(네온 와이어프레임) 디자인, 색만 네이비+샴페인골드 / 위쪽 글 REAL V =====
+   css/intro.css 덮어쓰기. 960x540 시안을 화면 크기에 맞춰 그대로 확대/축소(--u) */
+#intro{--u:min(calc(100vh/540),calc(100vw/960));--g:#d9b97a;--c:#f3e2b3;--navy:#0a1840;background:#050a1c;isolation:isolate;cursor:pointer;overflow:hidden;outline:0}
+#intro.on{display:block}
 #intro>*{pointer-events:none}
+.ia-bg{position:absolute;inset:0;z-index:-4;background:radial-gradient(#12306b,#050a1c)}
+.ia-stars{position:absolute;inset:0;z-index:-3;background-image:radial-gradient(1.4px 1.4px at 11% 17%,#fff,transparent),radial-gradient(1px 1px at 31% 11%,#fff,transparent),radial-gradient(1.2px 1.2px at 73% 9%,#fff,transparent),radial-gradient(1px 1px at 89% 26%,#fff,transparent),radial-gradient(1px 1px at 52% 33%,#f3e2b3,transparent);background-size:300px 220px;animation:ia-tw 3s ease-in-out infinite alternate}
+@keyframes ia-tw{from{opacity:.3}to{opacity:1}}
 
-/* 배경: 네이비 그라데이션 + 샴페인 빛 번짐 + 별 */
-.ia-bg{position:absolute;inset:0;z-index:-5;
-  background:radial-gradient(70% 55% at 50% 36%,rgba(var(--gr),.2),transparent 70%),radial-gradient(90% 80% at 50% 0%,#17358a 0%,transparent 65%),radial-gradient(60% 50% at 0% 100%,#0c2158,transparent 70%),linear-gradient(#050c25,#030714);
-  animation:ia-breathe 8s ease-in-out infinite alternate}
-@keyframes ia-breathe{to{filter:brightness(1.22)}}
-.ia-stars,.ia-stars::after{position:absolute;inset:0;z-index:-4;content:"";
-  background-image:radial-gradient(1.4px 1.4px at 12% 20%,#fff,transparent),radial-gradient(1px 1px at 38% 70%,#ffe9b8,transparent),radial-gradient(1.2px 1.2px at 64% 28%,#fff,transparent),radial-gradient(1px 1px at 86% 62%,#ffe9b8,transparent),radial-gradient(1.4px 1.4px at 92% 14%,#fff,transparent);
-  background-size:260px 190px;animation:ia-twinkle 3.2s ease-in-out infinite alternate}
-.ia-stars::after{background-size:170px 230px;background-position:60px 40px;animation-duration:4.6s;animation-delay:-1.8s}
-@keyframes ia-twinkle{from{opacity:.25}to{opacity:1}}
+/* 와이어프레임 산 */
+.ia-wire{position:absolute;left:0;right:0;bottom:0;width:100%;height:calc(300*var(--u));z-index:-2;fill:none;stroke:var(--g);stroke-width:1.3;opacity:.85;animation:ia-wave 6s ease-in-out infinite alternate}
+@keyframes ia-wave{from{transform:translateY(0)}to{transform:translateY(calc(8*var(--u)))}}
+.ia-scan{position:absolute;inset:0;z-index:5;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px)}
 
-/* 바닥 그리드 (원근, 앞으로 흐름) */
-.ia-floor{position:absolute;left:-40%;right:-40%;bottom:-2%;height:48%;z-index:-3;
-  background:repeating-linear-gradient(90deg,rgba(var(--gr),.5) 0 1px,transparent 1px 64px),repeating-linear-gradient(0deg,rgba(var(--gr),.5) 0 1px,transparent 1px 64px);
-  transform:perspective(380px) rotateX(64deg);transform-origin:50% 100%;
-  -webkit-mask-image:linear-gradient(transparent,#000 70%);mask-image:linear-gradient(transparent,#000 70%);animation:ia-floor 3s linear infinite}
-@keyframes ia-floor{to{background-position:0 64px}}
+/* 모서리: 하트 + 배터리 */
+.ia-hearts{position:absolute;left:calc(24*var(--u));top:calc(20*var(--u));display:flex;align-items:center;gap:calc(6*var(--u))}
+.ia-hearts svg{width:calc(22*var(--u));height:calc(20*var(--u));fill:var(--g);animation:ia-blink 2.4s ease-in-out infinite}
+.ia-hearts svg:nth-child(2){animation-delay:.3s}.ia-hearts svg:nth-child(3){animation-delay:.6s}
+.ia-hearts span{margin-left:calc(10*var(--u));font:calc(8*var(--u)) "Press Start 2P",monospace;color:var(--g)}
+.ia-bat{position:absolute;right:calc(24*var(--u));top:calc(20*var(--u));width:calc(36*var(--u));height:calc(16*var(--u));border:2px solid var(--g);box-sizing:border-box}
+.ia-bat i{display:block;height:100%;background:var(--g);animation:ia-bat 4s ease-in-out infinite alternate}
+@keyframes ia-bat{from{width:35%}to{width:80%}}
+@keyframes ia-blink{50%{opacity:.35}}
 
-/* 이퀄라이저 */
-.ia-eq{position:absolute;left:0;right:0;bottom:calc(10px + env(safe-area-inset-bottom));height:22vh;z-index:-2;display:flex;align-items:flex-end;justify-content:space-between;gap:.6%;padding:0 calc(16px + env(safe-area-inset-left)) 0 calc(16px + env(safe-area-inset-right));opacity:.85}
-.ia-eq i{flex:1;max-width:14px;height:100%;border-radius:5px 5px 0 0;background:linear-gradient(to top,rgba(var(--gr),0),rgba(var(--gr),.5) 60%,var(--g1));transform-origin:bottom;transform:scaleY(.15);animation:ia-eq 1.1s ease-in-out infinite alternate}
-.ia-eq i:nth-child(2n){height:72%;animation-duration:.9s;animation-delay:-.3s}
-.ia-eq i:nth-child(3n){height:100%;animation-duration:1.4s;animation-delay:-.7s}
-.ia-eq i:nth-child(4n){height:56%;animation-duration:.7s;animation-delay:-.1s}
-.ia-eq i:nth-child(5n){height:84%;animation-duration:1.7s;animation-delay:-1s}
-@keyframes ia-eq{from{transform:scaleY(.1)}to{transform:scaleY(1)}}
-
-/* HUD 링 (골드) */
-.ia-ring{position:absolute;left:50%;top:50%;width:min(112vh,84vw);aspect-ratio:1;transform:translate(-50%,-50%);z-index:-1;opacity:.5;fill:none;stroke:var(--g2);stroke-width:1.4;filter:drop-shadow(0 0 6px rgba(var(--gr),.6))}
-.ia-ring g{transform-box:fill-box;transform-origin:center}
-.ia-ring .r1{animation:ia-spin 70s linear infinite}.ia-ring .r2{animation:ia-spin 46s linear infinite reverse;stroke:#7fa2ff}
-@keyframes ia-spin{to{transform:rotate(360deg)}}
-
-/* HUD 모서리 / 상단 */
-.ia-c{position:absolute;width:28px;height:28px;border:0 solid var(--g2);filter:drop-shadow(0 0 6px rgba(var(--gr),.8));opacity:.9}
-.ia-c.tl{left:calc(14px + env(safe-area-inset-left));top:calc(14px + env(safe-area-inset-top));border-left-width:2px;border-top-width:2px}
-.ia-c.tr{right:calc(14px + env(safe-area-inset-right));top:calc(14px + env(safe-area-inset-top));border-right-width:2px;border-top-width:2px}
-.ia-c.bl{left:calc(14px + env(safe-area-inset-left));bottom:calc(14px + env(safe-area-inset-bottom));border-left-width:2px;border-bottom-width:2px}
-.ia-c.br{right:calc(14px + env(safe-area-inset-right));bottom:calc(14px + env(safe-area-inset-bottom));border-right-width:2px;border-bottom-width:2px}
-.ia-top{position:absolute;left:calc(58px + env(safe-area-inset-left));right:calc(58px + env(safe-area-inset-right));top:calc(18px + env(safe-area-inset-top));display:flex;justify-content:space-between;font:800 11px Sora,sans-serif;letter-spacing:.36em;color:var(--g2);text-shadow:0 0 10px rgba(var(--gr),.6)}
-.ia-top .live{color:#bcd0ff}
-.ia-top .live::before{content:"";display:inline-block;width:7px;height:7px;margin-right:9px;border-radius:50%;background:var(--g2);box-shadow:0 0 10px var(--g2);animation:ia-blink 1.4s infinite}
-@keyframes ia-blink{50%{opacity:.2}}
-
-/* 글래스 카드 */
-#intro .introbox{position:relative;z-index:1;width:min(560px,88vw);overflow:hidden;display:flex;flex-direction:column;align-items:center;gap:clamp(8px,2vh,16px);
-  padding:clamp(16px,4.2vh,34px) clamp(18px,4vw,40px) clamp(14px,3.4vh,28px);border-radius:28px;border:1px solid rgba(var(--gr),.38);
-  background:linear-gradient(160deg,rgba(255,255,255,.13),rgba(255,255,255,.03)),rgba(8,20,51,.55);
-  -webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4);
-  box-shadow:0 24px 70px rgba(0,0,0,.6),0 0 60px rgba(var(--gr),.16),inset 0 1px 0 rgba(255,255,255,.28);
-  animation:ia-rise .9s cubic-bezier(.2,.8,.2,1) both,ia-float 5s 1s ease-in-out infinite alternate}
-#intro .introbox::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--g4),var(--g1),var(--g3),var(--g1),var(--g4));background-size:200% 100%;animation:ia-slide 4s linear infinite}
-#intro .introbox::after{content:"";position:absolute;top:0;bottom:0;left:0;width:34%;background:linear-gradient(100deg,transparent,rgba(255,243,209,.22),transparent);transform:translateX(-170%) skewX(-20deg);animation:ia-sweep 6s 1.5s ease-in-out infinite}
-@keyframes ia-rise{from{opacity:0;transform:translateY(22px) scale(.97)}}
-@keyframes ia-float{to{transform:translateY(-5px)}}
-@keyframes ia-slide{to{background-position:-200% 0}}
-@keyframes ia-sweep{0%,60%{transform:translateX(-170%) skewX(-20deg)}100%{transform:translateX(460%) skewX(-20deg)}}
-
-/* 위쪽 글: REAL V */
-.ia-kick{display:flex;align-items:center;gap:12px;font:800 clamp(11px,2vw,14px) Sora,sans-serif;letter-spacing:.55em;text-indent:.55em;color:var(--g2);animation:ia-glow 2.6s ease-in-out infinite alternate}
-.ia-kick::before,.ia-kick::after{content:"";width:clamp(18px,6vw,40px);height:1px;background:linear-gradient(90deg,transparent,var(--g2))}
-.ia-kick::after{transform:scaleX(-1)}
-@keyframes ia-glow{from{text-shadow:0 0 4px rgba(var(--gr),.2)}to{text-shadow:0 0 14px rgba(var(--gr),.95)}}
-
-/* 로고: 위 PLAY(은백) / 아래 VIXX(샴페인골드 쉬머) */
-#intro h1{margin:0;text-align:center;font:800 clamp(40px,min(14vw,11vh),92px)/1 Sora,"Noto Sans KR",sans-serif;letter-spacing:.03em;text-shadow:none;color:#f4f7ff;animation:ia-in 1.1s .15s cubic-bezier(.2,.8,.2,1) both}
-#intro h1 span{display:block}
-#intro h1 .p{color:#f4f7ff;text-shadow:0 0 22px rgba(120,160,255,.65)}
-#intro h1 .v{background:linear-gradient(100deg,var(--g4) 0%,var(--g2) 18%,var(--g1) 36%,var(--g3) 54%,var(--g1) 72%,var(--g4) 100%);background-size:260% 100%;
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;filter:drop-shadow(0 0 14px rgba(var(--gr),.5)) drop-shadow(0 4px 0 rgba(8,20,51,.8));animation:ia-shimmer 5s linear infinite}
-@keyframes ia-shimmer{to{background-position:-260% 0}}
-@keyframes ia-in{0%{opacity:0;letter-spacing:.2em;filter:blur(10px)}100%{opacity:1}}
-
-/* PLAY 알약 버튼 (장식 — 화면 아무 데나 탭하면 시작) */
-.ia-play{position:relative;overflow:hidden;width:min(100%,340px);height:clamp(46px,9vh,60px);display:flex;align-items:center;gap:14px;padding:0 8px;border-radius:999px;color:#0a1840;
-  background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0) 52%),linear-gradient(135deg,var(--g1),var(--g2) 45%,var(--g3));
-  box-shadow:0 10px 30px rgba(var(--gr),.38),inset 0 0 0 1px rgba(255,255,255,.5),inset 0 -3px 0 rgba(0,0,0,.2);animation:ia-pulse 2.4s ease-in-out infinite}
-.ia-play .pi{flex:none;display:grid;place-items:center;width:clamp(32px,6.4vh,42px);aspect-ratio:1;padding-left:3px;border-radius:50%;background:#0a1840;color:var(--g1);font-size:14px;box-shadow:0 0 0 4px rgba(10,24,64,.18)}
-.ia-play .pt{line-height:1;text-align:left}.ia-play b{display:block;font:800 clamp(17px,3.2vh,22px) Sora,sans-serif;letter-spacing:.24em}
-.ia-play small{display:block;margin-top:4px;font:700 8px Sora,sans-serif;letter-spacing:.34em;opacity:.75}
-.ia-play::after{content:"";position:absolute;top:0;bottom:0;left:0;width:34%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);transform:translateX(-160%) skewX(-20deg);animation:ia-sheen 3.2s ease-in-out infinite}
-@keyframes ia-sheen{0%,55%{transform:translateX(-160%) skewX(-20deg)}100%{transform:translateX(420%) skewX(-20deg)}}
-@keyframes ia-pulse{50%{box-shadow:0 10px 40px rgba(var(--gr),.7),inset 0 0 0 1px rgba(255,255,255,.5),inset 0 -3px 0 rgba(0,0,0,.2)}}
-
-/* TAP TO START */
-#intro p{margin:0;font:700 clamp(10px,1.7vw,13px) Sora,sans-serif;letter-spacing:.5em;text-indent:.5em;color:#dfe8ff;text-shadow:0 0 10px rgba(var(--gr),.7);animation:ia-blink 1.6s 1.4s infinite both}
-
-@media (max-height:520px){
-  .ia-top{font-size:9px;top:calc(12px + env(safe-area-inset-top))}.ia-c{width:22px;height:22px}
-  .ia-eq{height:16vh}.ia-floor{height:40%}
-  #intro .introbox{width:min(520px,70vw);border-radius:22px}
-  #intro h1{font-size:clamp(30px,min(8vw,14vh),62px)}
-  #intro h1 span{display:inline}#intro h1 .p{margin-right:.22em}
-}
-@media (prefers-reduced-motion:reduce){.ia-bg,.ia-stars,.ia-stars::after,.ia-floor,.ia-eq i,.ia-ring g,.ia-kick,#intro h1,#intro h1 .v,.ia-play,.ia-play::after,#intro p,.ia-top .live::before,#intro .introbox,#intro .introbox::before,#intro .introbox::after{animation:none!important}.ia-eq i{transform:scaleY(.5)}}
+/* 가운데 무대 */
+.ia-stage{position:absolute;left:50%;top:50%;width:calc(960*var(--u));height:calc(540*var(--u));transform:translate(-50%,-50%)}
+.ia-kick{position:absolute;left:0;right:0;top:calc(92*var(--u));text-align:center;font:calc(20*var(--u)) "Press Start 2P",monospace;color:var(--g);text-shadow:0 0 calc(10*var(--u)) var(--g);animation:ia-glow 2.4s ease-in-out infinite alternate}
+@keyframes ia-glow{from{opacity:.75}to{opacity:1;text-shadow:0 0 calc(22*var(--u)) var(--g)}}
+#intro .introbox{position:absolute;left:0;right:0;top:calc(128*var(--u))}
+#intro h1{margin:0;text-align:center;white-space:nowrap;font:800 calc(104*var(--u))/1 Unbounded,Sora,sans-serif;letter-spacing:-.02em;color:var(--c);animation:ia-logo 3s ease-in-out infinite alternate;
+  text-shadow:calc(3*var(--u)) calc(3*var(--u)) 0 var(--g),calc(6*var(--u)) calc(6*var(--u)) 0 #a98a4c,calc(9*var(--u)) calc(9*var(--u)) 0 #5b4725,0 0 calc(40*var(--u)) var(--g)}
+@keyframes ia-logo{to{filter:brightness(1.18) drop-shadow(0 0 calc(14*var(--u)) rgba(217,185,122,.6))}}
+.ia-spk{position:absolute;left:0;right:0;top:calc(262*var(--u));display:flex;justify-content:center;align-items:center;gap:calc(30*var(--u))}
+.ia-spk svg{fill:var(--g);animation:ia-spin 2.4s ease-in-out infinite alternate}
+.ia-spk svg:nth-child(1),.ia-spk svg:nth-child(3){width:calc(40*var(--u));height:calc(40*var(--u))}.ia-spk svg:nth-child(2){width:calc(56*var(--u));height:calc(56*var(--u));animation-delay:-1.2s}
+.ia-spk svg:nth-child(3){animation-delay:-.6s}
+@keyframes ia-spin{from{transform:scale(.75);opacity:.6}to{transform:scale(1.08) rotate(12deg);opacity:1}}
+.ia-btns{position:absolute;left:0;right:0;top:calc(350*var(--u));display:flex;justify-content:center;gap:calc(26*var(--u))}
+.ia-btns span{padding:calc(12*var(--u)) calc(22*var(--u));border:2px solid var(--c);background:#12306b;color:var(--c);font:calc(12*var(--u)) "Press Start 2P",monospace;box-shadow:0 0 calc(18*var(--u)) var(--g)}
+.ia-btns span.on{background:var(--g);color:var(--navy);animation:ia-pulse 1.8s ease-in-out infinite}
+@keyframes ia-pulse{50%{box-shadow:0 0 calc(34*var(--u)) var(--g)}}
+#intro p{position:absolute;left:0;right:0;bottom:calc(24*var(--u));margin:0;text-align:center;font:calc(9*var(--u)) "Press Start 2P",monospace;color:var(--c);animation:ia-blink 1.4s infinite}
+@media (prefers-reduced-motion:reduce){.ia-stars,.ia-wire,.ia-hearts svg,.ia-bat i,.ia-kick,#intro h1,.ia-spk svg,.ia-btns span.on,#intro p{animation:none!important}}
