@@ -2,9 +2,9 @@
    - 화면/코드/채보/사진: 캐시를 먼저 보여주고 뒤에서 최신으로 갱신(stale-while-revalidate)
    - 음원(mp3/m4a): 처음 한 번 받아 저장 → 이후 오프라인 재생 (Range 요청 직접 처리)
    배포 후 파일 구조를 크게 바꿨다면 아래 VER 숫자를 올리세요. */
-const VER = "vixx-v22";   // v22: 첫 화면 제거(바로 곡 선택) / v20: 첫 화면 REAL V 개편   // v6: 롱노트 추가 → 옛 캐시 버림
+const VER = "vixx-v21";   // v20: 첫 화면 REAL V 개편   // v6: 롱노트 추가 → 옛 캐시 버림
 //   // v3: 곡 선택 화면 UI 개편(카드형·테마 컬러) / v2: Chemical 음원 교체 + 채보/게임 코드 변경 → 숫자를 올려 옛 캐시(옛 Chemical 포함)를 버림
-const SHELL = ["./", "index.html", "css/style.css", "js/songs.js", "js/game.js", "manifest.webmanifest",
+const SHELL = ["./", "index.html", "css/style.css", "css/intro.css", "js/songs.js", "js/game.js", "manifest.webmanifest",
   "icons/icon-192.png", "icons/icon-512.png", "icons/apple-touch-icon.png",
   ...["spider", "chemical", "body", "dark", "maze", "painful"].flatMap(i => ["charts/" + i + ".js", "covers/vixx/" + i + ".webp"]),
   ...["eternity", "error", "lovequation", "chained", "dynamite", "fantasy", "thecloser", "milkyway", "shangrila", "scentist", "parallel", "gonnabealright", "amnesia", "alive"].flatMap(i => ["charts/" + i + ".js", "covers/vixx/" + i + ".webp"]),
