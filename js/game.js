@@ -20,7 +20,7 @@ const exportText = (t, name, btn, label) => {   // 클립보드 복사 → 실�
 };
 const songs = GROUPS.flatMap(g => g.songs);
 const au = $("#au"), cv = $("#cv"), ctx = cv.getContext("2d");
-let cur = songs.find(s => s.id === load("song", "")) || songs[0];
+let cur = songs.find(s => s.id === "rockurbody") || songs[0];   // 앱을 켜면 항상 Rock Ur Body 선택
 let diff = load("diff", "normal");
 const cfg = Object.assign({ speed: 6, offset: 0 }, load("settings", {}));
 const fmt = n => Number(n).toLocaleString();
@@ -34,7 +34,7 @@ const cover = s => `<span class="cv"><em>${s.title[0]}</em><img src="${s.cover}"
 const hx = k => Math.round(Math.max(0, Math.min(1, k)) * 255).toString(16).padStart(2, "0");
 let idx = Math.max(0, songs.indexOf(cur)), drag = 0, dragging = false, sx = 0, downEl = null, pvT = 0, lastWheel = 0;
 const track = $("#track"), stage = $("#stage");
-const on = id => $("#" + id).classList.contains("on");
+const on = id => { const e = $("#" + id); return !!e && e.classList.contains("on"); };   // 인트로 화면이 없는 index.html 에서도 오류 없이
 const step = () => (track.firstElementChild ? track.firstElementChild.offsetWidth : 240) * .7;
 const stars = s => { const n = DIFFS.filter(d => best(s.id, d)).length; return "★".repeat(n) + "☆".repeat(3 - n); };
 const hex2 = h => [1, 3, 5].map(i => parseInt(h.substr(i, 2), 16));
@@ -78,10 +78,10 @@ function schedulePreview() { stopPreview(); pvT = setTimeout(() => {
   if (running || !on("select")) return; const pos = (durOf(cur) / 1000 || 100) * .3;
   au.onerror = null; au.volume = .8; au.onloadedmetadata = () => { au.currentTime = pos; au.play().catch(() => {}); }; au.src = cur.file; au.load(); }, 350); }
 function goSelect() { mode = "game"; enterFull(); show("select"); $("#settings").classList.remove("on"); theme(); renderTrack(); renderInfo(); renderDiffs(); schedulePreview(); }
-function goIntro() { stopPreview(); show("intro"); }
-$("#introT").textContent = "PLAY " + GROUPS[0].name; $("#grp").textContent = GROUPS[0].name;
-$("#intro").onclick = goSelect;
-$("#close").onclick = goIntro;
+function goIntro() { if (!$("#intro")) return; stopPreview(); show("intro"); }
+if ($("#introT")) $("#introT").textContent = "PLAY " + GROUPS[0].name; $("#grp").textContent = GROUPS[0].name;
+if ($("#intro")) $("#intro").onclick = goSelect;
+if ($("#close")) $("#close").onclick = goIntro;
 $("#prev").onclick = () => pick(idx - 1); $("#next").onclick = () => pick(idx + 1);
 $("#diffs").onclick = e => { const b = e.target.closest(".dc"); if (b && !b.disabled) { diff = b.dataset.d; save("diff", diff); renderDiffs(); renderInfo(); } };
 $("#start").onclick = () => { mode = "game"; start(); };
@@ -435,5 +435,5 @@ function finishRec() {
   show("result");
 }
 
-show("intro");
+if ($("#intro")) show("intro"); else goSelect();   // 인트로가 있으면 인트로, 없으면 곡 선택 화면으로 시작
 })();
