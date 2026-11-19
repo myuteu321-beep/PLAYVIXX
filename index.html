@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>VIXX 4K Rhythm</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#07040f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="VIXX Rhythm">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;700;800&family=Noto+Sans+KR:wght@400;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/intro.css">
+</head>
+<body>
+<main id="app">
+  <section id="intro" class="screen on" tabindex="0">
+    <div class="ia-bg"></div><div class="ia-tint"></div>
+    <div class="ia-speed s1"></div><div class="ia-speed s2"></div>
+    <svg class="ia-ring" viewBox="0 0 400 400" aria-hidden="true">
+      <g class="r1"><circle cx="200" cy="200" r="186" pathLength="100" stroke-dasharray="14 3 2 3 30 3 6 39"/></g>
+      <g class="r2"><circle cx="200" cy="200" r="160" pathLength="100" stroke-dasharray="22 6 4 68"/></g>
+      <g class="r3"><circle cx="200" cy="200" r="132" pathLength="100" stroke-dasharray="1 1.4"/></g>
+    </svg>
+    <i class="ia-c tl"></i><i class="ia-c tr"></i><i class="ia-c bl"></i><i class="ia-c br"></i>
+    <div class="ia-top"><span>VIXX · 4K RHYTHM</span><span class="live">READY</span></div>
+    <div class="introbox"><h1 id="introT">PLAY VIXX</h1><p>TAP TO START</p></div>
+    <div class="ia-bars"><b></b><b></b><b></b></div>
+  </section>
+
+  <section id="select" class="screen">
+    <div id="selbg"><div class="bgl"></div><div class="bgl"></div></div>
+    <div class="topbar"><b id="grp">VIXX</b><span id="cnt"></span><span class="sp"></span><button id="gear" class="ic" aria-label="설정">⚙</button><button id="close" class="ic" aria-label="처음 화면">✕</button></div>
+    <div id="selmain">
+      <div id="stage"><button class="nav l" id="prev" aria-label="이전 곡">‹</button><div id="track"></div><button class="nav r" id="next" aria-label="다음 곡">›</button></div>
+      <aside id="panel">
+        <div id="info"></div>
+        <div id="diffs"></div>
+        <button id="start" class="startbtn"><span class="pi">▶</span><span class="pt"><b>PLAY</b><small>START GAME</small></span></button>
+        <div id="myrow"><button id="rec" class="mini">● 녹음하기</button><button id="mine" class="mini" disabled>▶ 내 채보</button><button id="mall" class="mini">⧉ 복사</button></div>
+      </aside>
+    </div>
+    <div id="settings" class="pop">
+      <label>노트 속도<input id="sp" type="range" min="1" max="10"><output id="spo"></output></label>
+      <label>싱크 보정<input id="of" type="range" min="-200" max="200" step="5"><output id="ofo"></output></label>
+    </div>
+  </section>
+
+  <section id="play" class="screen">
+    <video id="bgv" muted playsinline preload="auto"></video>
+    <canvas id="cv"></canvas>
+    <button id="pauseBtn" aria-label="일시정지">II</button>
+    <div id="pause" class="overlay">
+      <h2>PAUSE</h2>
+      <button id="resume" class="btn">계속하기</button>
+      <button id="retry1" class="btn ghost">다시 시작</button>
+      <button id="recsave" class="btn ghost" style="display:none">저장하고 끝내기</button>
+      <button id="quit" class="btn ghost">곡 선택</button>
+    </div>
+  </section>
+
+  <section id="result" class="screen"></section>
+</main>
+<div id="rotate"><div class="phone"></div><p>가로 모드로 돌려주세요</p></div>
+<audio id="au" preload="auto"></audio>
+<script src="js/songs.js"></script>
+<script src="charts/spider.js"></script>
+<script src="charts/chemical.js"></script>
+<script src="charts/body.js"></script>
+<script src="charts/dark.js"></script>
+<script src="charts/maze.js"></script>
+<script src="charts/painful.js"></script>
+<script src="charts/rockurbody.js"></script>
+<script src="charts/onandon.js"></script>
+<script src="charts/hyde.js"></script>
+<script src="charts/gr8u.js"></script>
+<script src="charts/voodoo.js"></script>
+<script src="charts/onlyu.js"></script>
+<script src="charts/eternity.js"></script>
+<script src="charts/error.js"></script>
+<script src="charts/lovequation.js"></script>
+<script src="charts/chained.js"></script>
+<script src="charts/dynamite.js"></script>
+<script src="charts/fantasy.js"></script>
+<script src="charts/thecloser.js"></script>
+<script src="charts/milkyway.js"></script>
+<script src="charts/shangrila.js"></script>
+<script src="charts/scentist.js"></script>
+<script src="charts/parallel.js"></script>
+<script src="charts/gonnabealright.js"></script>
+<script src="charts/amnesia.js"></script>
+<script src="charts/alive.js"></script>
+<script src="charts/chaos.js"></script>
+<script src="charts/dependonme.js"></script>
+<script src="charts/desperate.js"></script>
+<script src="charts/heaven.js"></script>
+<script src="charts/sayusayme.js"></script>
+<script src="charts/secretnight.js"></script>
+<script src="charts/shadow.js"></script>
+<script src="charts/timemachine.js"></script>
+<script src="charts/whatuwaiting.js"></script>
+<script src="charts/whattodo.js"></script>
+<script src="charts/givemesomething.js"></script>
+<script src="charts/afterdark.js"></script>
+<script src="charts/beautifulkiller.js"></script>
+<script src="charts/blackout.js"></script>
+<script src="charts/trigger.js"></script>
+<script src="charts/goodday.js"></script>
+<script src="charts/escape.js"></script>
+<script src="charts/circle.js"></script>
+<script src="charts/navyshininggold.js"></script>
+<script src="charts/silence.js"></script>
+<script src="charts/oddsense.js"></script>
+<script src="charts/myvalentine.js"></script>
+<script src="charts/savage.js"></script>
+<script src="charts/beautifulday.js"></script>
+<script src="charts/chilling.js"></script>
+<script src="charts/stayforme.js"></script>
+<script src="charts/chocolatier.js"></script>
+<script src="charts/beautifulnight.js"></script>
+<script src="js/game.js"></script>
+<script>if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));</script>
+</body>
+</html>
