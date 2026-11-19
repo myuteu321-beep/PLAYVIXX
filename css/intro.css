@@ -1,43 +1,86 @@
-/* ===== 첫 화면 · 2번(네온 와이어프레임) 디자인, 색만 네이비+샴페인골드 / 위쪽 글 REAL V =====
-   css/intro.css 덮어쓰기. 960x540 시안을 화면 크기에 맞춰 그대로 확대/축소(--u) */
-#intro{--u:min(calc(100vh/540),calc(100vw/960));--g:#d9b97a;--c:#f3e2b3;--navy:#0a1840;background:#050a1c;isolation:isolate;cursor:pointer;overflow:hidden;outline:0}
-#intro.on{display:block}
+/* ===== 첫 화면 · 사이버펑크 네온 시티 + 배지 로고 (모바일 가로 기준) =====
+   css/intro.css 를 이 파일로 덮어쓰세요. (index.html 의 #intro 섹션, sw.js 의 VER 도 같이 교체) */
+#intro{--cy:0,240,255;--mg:255,46,136;--ink:#0b0620;--cp:polygon(7% 0,100% 0,100% 68%,93% 100%,0 100%,0 32%);
+  background:linear-gradient(180deg,#0b0620 0%,#2a0a4a 36%,#ff2e88 60%,#0b0620 60.1%);
+  isolation:isolate;cursor:pointer;overflow:hidden;outline:0;font-family:"Russo One",Sora,"Noto Sans KR",sans-serif}
+#intro.on{display:grid;place-items:center}
 #intro>*{pointer-events:none}
-.ia-bg{position:absolute;inset:0;z-index:-4;background:radial-gradient(#12306b,#050a1c)}
-.ia-stars{position:absolute;inset:0;z-index:-3;background-image:radial-gradient(1.4px 1.4px at 11% 17%,#fff,transparent),radial-gradient(1px 1px at 31% 11%,#fff,transparent),radial-gradient(1.2px 1.2px at 73% 9%,#fff,transparent),radial-gradient(1px 1px at 89% 26%,#fff,transparent),radial-gradient(1px 1px at 52% 33%,#f3e2b3,transparent);background-size:300px 220px;animation:ia-tw 3s ease-in-out infinite alternate}
-@keyframes ia-tw{from{opacity:.3}to{opacity:1}}
 
-/* 와이어프레임 산 */
-.ia-wire{position:absolute;left:0;right:0;bottom:0;width:100%;height:calc(300*var(--u));z-index:-2;fill:none;stroke:var(--g);stroke-width:1.3;opacity:.85;animation:ia-wave 6s ease-in-out infinite alternate}
-@keyframes ia-wave{from{transform:translateY(0)}to{transform:translateY(calc(8*var(--u)))}}
-.ia-scan{position:absolute;inset:0;z-index:5;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px)}
+/* 하늘: 별 + 태양 + 도시 실루엣 */
+.ia-stars,.ia-stars::after{position:absolute;left:0;right:0;top:0;height:58%;content:"";
+  background-image:radial-gradient(1.4px 1.4px at 12% 20%,#fff,transparent),radial-gradient(1px 1px at 38% 40%,#cfeaff,transparent),radial-gradient(1.2px 1.2px at 64% 18%,#fff,transparent),radial-gradient(1px 1px at 86% 36%,#ffd0e6,transparent),radial-gradient(1.4px 1.4px at 94% 12%,#fff,transparent);
+  background-size:260px 150px;animation:ia-twinkle 3.2s ease-in-out infinite alternate}
+.ia-stars::after{background-size:170px 120px;background-position:60px 30px;animation-duration:4.6s;animation-delay:-1.8s}
+@keyframes ia-twinkle{from{opacity:.2}to{opacity:1}}
+.ia-sun{position:absolute;left:50%;bottom:38%;width:min(46vh,36vw);aspect-ratio:1;transform:translateX(-50%);border-radius:50%;
+  background:linear-gradient(180deg,#ffe14d,#ff2e88);box-shadow:0 0 50px rgba(var(--mg),.5);animation:ia-sun 4s ease-in-out infinite alternate}
+@keyframes ia-sun{to{filter:brightness(1.18);box-shadow:0 0 90px rgba(var(--mg),.85)}}
+.ia-city{position:absolute;left:0;right:0;bottom:39.5%;height:11vh;display:flex;align-items:flex-end;gap:.6vw;padding:0 1vw;box-sizing:border-box}
+.ia-city i{flex:1;height:var(--h);background:#120626;position:relative}
+.ia-city i::before{content:"";position:absolute;left:30%;top:14%;width:3px;height:3px;background:rgb(var(--cy));box-shadow:0 0 6px rgb(var(--cy));animation:ia-blink 2.2s infinite}
+.ia-city i:nth-child(2n)::before{background:rgb(var(--mg));box-shadow:0 0 6px rgb(var(--mg));animation-delay:-.8s}
+.ia-city i:nth-child(3n)::before{animation-delay:-1.5s}
+@keyframes ia-blink{50%{opacity:.2}}
 
-/* 모서리: 하트 + 배터리 */
-.ia-hearts{position:absolute;left:calc(24*var(--u));top:calc(20*var(--u));display:flex;align-items:center;gap:calc(6*var(--u))}
-.ia-hearts svg{width:calc(22*var(--u));height:calc(20*var(--u));fill:var(--g);animation:ia-blink 2.4s ease-in-out infinite}
-.ia-hearts svg:nth-child(2){animation-delay:.3s}.ia-hearts svg:nth-child(3){animation-delay:.6s}
-.ia-hearts span{margin-left:calc(10*var(--u));font:calc(8*var(--u)) "Press Start 2P",monospace;color:var(--g)}
-.ia-bat{position:absolute;right:calc(24*var(--u));top:calc(20*var(--u));width:calc(36*var(--u));height:calc(16*var(--u));border:2px solid var(--g);box-sizing:border-box}
-.ia-bat i{display:block;height:100%;background:var(--g);animation:ia-bat 4s ease-in-out infinite alternate}
-@keyframes ia-bat{from{width:35%}to{width:80%}}
-@keyframes ia-blink{50%{opacity:.35}}
+/* 바닥 그리드 (원근, 앞으로 흐름) + 지평선 */
+.ia-floor{position:absolute;left:0;right:0;bottom:0;height:40%;overflow:hidden;background:var(--ink)}
+.ia-floor::before{content:"";position:absolute;left:-60%;right:-60%;top:0;height:280%;transform-origin:50% 0;transform:perspective(40vh) rotateX(60deg);
+  background:repeating-linear-gradient(90deg,rgba(var(--cy),.75) 0 2px,transparent 2px 15vh),repeating-linear-gradient(0deg,rgba(var(--mg),.75) 0 2px,transparent 2px 12.5vh);animation:ia-floor 2.4s linear infinite}
+@keyframes ia-floor{to{background-position:0 0,0 12.5vh}}
+.ia-hz{position:absolute;left:0;right:0;bottom:calc(40% - 1px);height:3px;background:rgb(var(--cy));box-shadow:0 0 14px 3px rgb(var(--cy))}
 
-/* 가운데 무대 */
-.ia-stage{position:absolute;left:50%;top:50%;width:calc(960*var(--u));height:calc(540*var(--u));transform:translate(-50%,-50%)}
-.ia-kick{position:absolute;left:0;right:0;top:calc(92*var(--u));text-align:center;font:calc(20*var(--u)) "Press Start 2P",monospace;color:var(--g);text-shadow:0 0 calc(10*var(--u)) var(--g);animation:ia-glow 2.4s ease-in-out infinite alternate}
-@keyframes ia-glow{from{opacity:.75}to{opacity:1;text-shadow:0 0 calc(22*var(--u)) var(--g)}}
-#intro .introbox{position:absolute;left:0;right:0;top:calc(128*var(--u))}
-#intro h1{margin:0;text-align:center;white-space:nowrap;font:800 calc(104*var(--u))/1 Unbounded,Sora,sans-serif;letter-spacing:-.02em;color:var(--c);animation:ia-logo 3s ease-in-out infinite alternate;
-  text-shadow:calc(3*var(--u)) calc(3*var(--u)) 0 var(--g),calc(6*var(--u)) calc(6*var(--u)) 0 #a98a4c,calc(9*var(--u)) calc(9*var(--u)) 0 #5b4725,0 0 calc(40*var(--u)) var(--g)}
-@keyframes ia-logo{to{filter:brightness(1.18) drop-shadow(0 0 calc(14*var(--u)) rgba(217,185,122,.6))}}
-.ia-spk{position:absolute;left:0;right:0;top:calc(262*var(--u));display:flex;justify-content:center;align-items:center;gap:calc(30*var(--u))}
-.ia-spk svg{fill:var(--g);animation:ia-spin 2.4s ease-in-out infinite alternate}
-.ia-spk svg:nth-child(1),.ia-spk svg:nth-child(3){width:calc(40*var(--u));height:calc(40*var(--u))}.ia-spk svg:nth-child(2){width:calc(56*var(--u));height:calc(56*var(--u));animation-delay:-1.2s}
-.ia-spk svg:nth-child(3){animation-delay:-.6s}
-@keyframes ia-spin{from{transform:scale(.75);opacity:.6}to{transform:scale(1.08) rotate(12deg);opacity:1}}
-.ia-btns{position:absolute;left:0;right:0;top:calc(350*var(--u));display:flex;justify-content:center;gap:calc(26*var(--u))}
-.ia-btns span{padding:calc(12*var(--u)) calc(22*var(--u));border:2px solid var(--c);background:#12306b;color:var(--c);font:calc(12*var(--u)) "Press Start 2P",monospace;box-shadow:0 0 calc(18*var(--u)) var(--g)}
-.ia-btns span.on{background:var(--g);color:var(--navy);animation:ia-pulse 1.8s ease-in-out infinite}
-@keyframes ia-pulse{50%{box-shadow:0 0 calc(34*var(--u)) var(--g)}}
-#intro p{position:absolute;left:0;right:0;bottom:calc(24*var(--u));margin:0;text-align:center;font:calc(9*var(--u)) "Press Start 2P",monospace;color:var(--c);animation:ia-blink 1.4s infinite}
-@media (prefers-reduced-motion:reduce){.ia-stars,.ia-wire,.ia-hearts svg,.ia-bat i,.ia-kick,#intro h1,.ia-spk svg,.ia-btns span.on,#intro p{animation:none!important}}
+/* 떨어지는 노트 (양옆 레인) */
+.ia-notes i{position:absolute;left:var(--x);top:-8vh;width:min(7vw,56px);height:max(2vh,8px);background:rgb(var(--cy));box-shadow:0 0 10px rgb(var(--cy));opacity:.85;animation:ia-fall var(--d,4s) linear infinite;animation-delay:var(--l,0s)}
+.ia-notes i:nth-child(2n){background:rgb(var(--mg));box-shadow:0 0 10px rgb(var(--mg))}
+@keyframes ia-fall{to{transform:translateY(112vh)}}
+
+/* 스캔라인 */
+.ia-scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 1px,transparent 1px 3px);animation:ia-scan 8s linear infinite}
+@keyframes ia-scan{to{background-position:0 60px}}
+
+/* HUD 모서리 / 상단 (노치 안전영역 반영) */
+.ia-c{position:absolute;width:24px;height:24px;border:0 solid rgb(var(--cy));filter:drop-shadow(0 0 6px rgb(var(--cy)));animation:ia-hud 2.8s ease-in-out infinite alternate}
+.ia-c.tl{left:calc(12px + env(safe-area-inset-left));top:calc(12px + env(safe-area-inset-top));border-left-width:2px;border-top-width:2px}
+.ia-c.tr{right:calc(12px + env(safe-area-inset-right));top:calc(12px + env(safe-area-inset-top));border-right-width:2px;border-top-width:2px;border-color:rgb(var(--mg));filter:drop-shadow(0 0 6px rgb(var(--mg)))}
+.ia-c.bl{left:calc(12px + env(safe-area-inset-left));bottom:calc(12px + env(safe-area-inset-bottom));border-left-width:2px;border-bottom-width:2px;border-color:rgb(var(--mg));filter:drop-shadow(0 0 6px rgb(var(--mg)))}
+.ia-c.br{right:calc(12px + env(safe-area-inset-right));bottom:calc(12px + env(safe-area-inset-bottom));border-right-width:2px;border-bottom-width:2px}
+@keyframes ia-hud{to{opacity:.45}}
+.ia-top{position:absolute;left:calc(48px + env(safe-area-inset-left));right:calc(48px + env(safe-area-inset-right));top:calc(16px + env(safe-area-inset-top));display:flex;justify-content:space-between;font:800 10px Sora,sans-serif;letter-spacing:.34em;color:#9ff6ff;text-shadow:0 0 8px rgba(var(--cy),.7)}
+.ia-top .live{color:#ffd0e6}
+.ia-top .live::before{content:"";display:inline-block;width:6px;height:6px;margin-right:8px;border-radius:50%;background:rgb(var(--mg));box-shadow:0 0 8px rgb(var(--mg));animation:ia-blink 1.4s infinite}
+
+/* 배지 로고 (4번) */
+#intro .introbox{position:relative;z-index:2;width:auto;max-width:92vw;margin:0;padding:0;display:flex;flex-direction:column;align-items:center;gap:0;overflow:visible;border:0;border-radius:0;background:none;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;
+  animation:ia-pop .9s cubic-bezier(.2,.8,.2,1) both,ia-float 4s 1s ease-in-out infinite alternate}
+#intro .introbox::before,#intro .introbox::after{content:none;animation:none}
+@keyframes ia-pop{from{opacity:0;transform:scale(.9) translateY(14px);filter:blur(6px)}}
+@keyframes ia-float{to{transform:translateY(-4px)}}
+.ia-badge{position:relative;filter:drop-shadow(0 0 10px rgba(var(--cy),.95));animation:ia-neon 5s ease-in-out infinite}
+@keyframes ia-neon{0%,17%,23%,100%{filter:drop-shadow(0 0 10px rgba(var(--cy),.95))}20%{filter:drop-shadow(0 0 3px rgba(var(--cy),.4))}60%{filter:drop-shadow(0 0 20px rgba(var(--cy),1))}}
+.ia-badge::before{content:"";position:absolute;inset:0;clip-path:var(--cp);background:linear-gradient(90deg,rgb(var(--cy)) 0%,#c8ffff 25%,rgb(var(--cy)) 50%,rgb(var(--mg)) 100%);background-size:200% 100%;animation:ia-slide 3.4s linear infinite}
+@keyframes ia-slide{to{background-position:-200% 0}}
+.ia-badge .in{position:relative;margin:max(2px,.45vh);padding:clamp(8px,2.6vh,16px) clamp(24px,5vw,46px);clip-path:var(--cp);background:var(--ink);overflow:hidden}
+.ia-badge .in::after{content:"";position:absolute;top:0;bottom:0;left:0;width:28%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.3),transparent);transform:translateX(-200%) skewX(-20deg);animation:ia-sheen 3.6s 1s ease-in-out infinite}
+@keyframes ia-sheen{0%,50%{transform:translateX(-200%) skewX(-20deg)}100%{transform:translateX(520%) skewX(-20deg)}}
+#intro h1{margin:0;display:flex;align-items:center;justify-content:center;gap:.28em;white-space:nowrap;
+  font:400 clamp(24px,min(8.4vw,15vh),62px)/1.1 "Russo One",Sora,"Noto Sans KR",sans-serif;letter-spacing:.04em;text-shadow:none;color:#fff;animation:none}
+#intro h1 span{display:inline-block}
+#intro h1 .p{color:rgb(var(--mg));background:none;-webkit-text-fill-color:rgb(var(--mg));filter:none;text-shadow:0 0 12px rgba(var(--mg),.9);animation:ia-pglow 2.4s ease-in-out infinite alternate}
+#intro h1 .v{color:#fff;background:none;-webkit-text-fill-color:#fff;filter:none;animation:ia-glitch 6s steps(1) infinite}
+@keyframes ia-pglow{to{text-shadow:0 0 22px rgba(var(--mg),1),0 0 4px rgba(var(--mg),.8)}}
+@keyframes ia-glitch{
+  0%,90%,100%{text-shadow:none;transform:none}
+  91%{text-shadow:-3px 0 rgb(var(--cy)),3px 0 rgb(var(--mg));transform:translateX(1px)}
+  93%{text-shadow:3px 0 rgb(var(--cy)),-3px 0 rgb(var(--mg));transform:translateX(-2px) skewX(-6deg)}
+  95%{text-shadow:-2px 0 rgb(var(--cy)),2px 0 rgb(var(--mg));transform:none}}
+
+/* TAP TO START */
+#intro p{position:absolute;left:0;right:0;bottom:calc(4.5vh + env(safe-area-inset-bottom));margin:0;display:flex;justify-content:center;align-items:center;gap:14px;
+  font:400 clamp(11px,2.4vh,14px) "Russo One",Sora,sans-serif;letter-spacing:.42em;text-indent:.42em;color:#fff;text-shadow:0 0 10px rgb(var(--cy));animation:ia-blink 1.6s 1.4s infinite both}
+#intro p::before,#intro p::after{content:"";width:clamp(28px,10vw,70px);height:2px;background:rgb(var(--cy));box-shadow:0 0 8px rgb(var(--cy))}
+#intro p::after{background:rgb(var(--mg));box-shadow:0 0 8px rgb(var(--mg))}
+
+/* 세로 화면(가로 모드 안내가 뜨기 전) / 아주 낮은 가로 화면 대응 */
+@media (orientation:portrait){#intro h1{font-size:clamp(22px,7.4vw,40px)}.ia-sun{width:58vw}.ia-notes{display:none}}
+@media (max-height:340px){.ia-top{display:none}.ia-badge .in{padding:6px 24px}}
+@media (prefers-reduced-motion:reduce){.ia-stars,.ia-stars::after,.ia-sun,.ia-city i::before,.ia-floor::before,.ia-notes i,.ia-scan,.ia-c,.ia-top .live::before,#intro .introbox,.ia-badge,.ia-badge::before,.ia-badge .in::after,#intro h1 .p,#intro h1 .v,#intro p{animation:none!important}.ia-notes{display:none}}
