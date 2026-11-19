@@ -20,7 +20,7 @@ const exportText = (t, name, btn, label) => {   // 클립보드 복사 → 실�
 };
 const songs = GROUPS.flatMap(g => g.songs);
 const au = $("#au"), cv = $("#cv"), ctx = cv.getContext("2d");
-let cur = songs.find(s => s.id === "rockurbody") || songs[0];   // 앱을 켜면 항상 Rock Ur Body 가 선택된 상태로 시작
+let cur = songs.find(s => s.id === load("song", "")) || songs[0];
 let diff = load("diff", "normal");
 const cfg = Object.assign({ speed: 6, offset: 0 }, load("settings", {}));
 const fmt = n => Number(n).toLocaleString();
@@ -435,5 +435,5 @@ function finishRec() {
   show("result");
 }
 
-goSelect();   // 첫 화면(인트로)을 건너뛰고 곡 선택 화면으로 바로 시작
+show("intro");
 })();
