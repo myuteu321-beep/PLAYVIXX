@@ -78,10 +78,7 @@ function schedulePreview() { stopPreview(); pvT = setTimeout(() => {
   if (running || !on("select")) return; const pos = (durOf(cur) / 1000 || 100) * .3;
   au.onerror = null; au.volume = .8; au.onloadedmetadata = () => { au.currentTime = pos; au.play().catch(() => {}); }; au.src = cur.file; au.load(); }, 350); }
 function goSelect() { mode = "game"; enterFull(); show("select"); $("#settings").classList.remove("on"); theme(); renderTrack(); renderInfo(); renderDiffs(); schedulePreview(); }
-function goIntro() { stopPreview(); show("intro"); }
-$("#introT").textContent = "PLAY " + GROUPS[0].name; $("#grp").textContent = GROUPS[0].name;
-$("#intro").onclick = goSelect;
-$("#close").onclick = goIntro;
+$("#grp").textContent = GROUPS[0].name;
 $("#prev").onclick = () => pick(idx - 1); $("#next").onclick = () => pick(idx + 1);
 $("#diffs").onclick = e => { const b = e.target.closest(".dc"); if (b && !b.disabled) { diff = b.dataset.d; save("diff", diff); renderDiffs(); renderInfo(); } };
 $("#start").onclick = () => { mode = "game"; start(); };
@@ -356,11 +353,10 @@ const kick = () => { if (running && !paused && !leading && !audioOn && au.paused
 addEventListener("keydown", e => {
   if (running) { if (e.code in KEYS) { e.preventDefault(); kick(); if (!e.repeat) press(KEYS[e.code], "k" + e.code); } else if (e.code === "Escape") setPause(!paused); return; }
   const k = e.code;
-  if (on("intro")) { if (k === "Enter" || k === "Space") { e.preventDefault(); goSelect(); } }
-  else if (on("select")) {
+  if (on("select")) {
     if (k === "ArrowLeft") pick(idx - 1); else if (k === "ArrowRight") pick(idx + 1);
     else if (k === "ArrowUp" || k === "ArrowDown") { const i = DIFFS.indexOf(diff) + (k === "ArrowUp" ? -1 : 1); if (DIFFS[i] && (CHARTS[cur.id] || {})[DIFFS[i]]) { diff = DIFFS[i]; save("diff", diff); renderDiffs(); renderInfo(); } e.preventDefault(); }
-    else if (k === "Enter") { mode = "game"; start(); } else if (k === "Escape") goIntro();
+    else if (k === "Enter") { mode = "game"; start(); }
   } else if (on("result") && k === "Enter") start();
 });
 function laneAt(e) {
@@ -435,5 +431,5 @@ function finishRec() {
   show("result");
 }
 
-show("intro");
+goSelect();   // 첫 화면 없이 바로 곡 선택 화면으로 시작
 })();
